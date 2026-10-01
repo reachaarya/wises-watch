@@ -208,12 +208,12 @@ h1, h2, h3 { font-family: var(--display); font-weight: 300; margin: 0; letter-sp
 /* ── Story chapters ────────────────────────────────────────── */
 .story { position: relative; z-index: 4; }
 .chapter { position: relative; height: 170vh; pointer-events: none; }
-.chapter--hero { height: 100vh; }
+.chapter--hero { height: 100vh; height: 100svh; }
 .chapter--anatomy { height: 230vh; }
 .chapter a, .chapter button { pointer-events: auto; }
 
 .chapter__copy {
-  position: sticky; top: 0; height: 100vh;
+  position: sticky; top: 0; height: 100vh; height: 100svh;
   display: flex; flex-direction: column; justify-content: center;
   padding: 120px var(--gutter) 80px calc(var(--gutter) + 72px);
   max-width: calc(560px + var(--gutter) + 72px);
@@ -255,7 +255,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 300; margin: 0; letter-sp
 .hero__title .line-inner { display: block; }
 .hero__the { font-family: var(--fell); font-style: italic; font-size: clamp(36px, 3.4vw, 58px); color: var(--amber); margin-left: 0.15em; }
 .hero__name {
-  font-family: var(--display); font-weight: 300; font-size: clamp(88px, 11.5vw, 200px); letter-spacing: -0.02em; color: var(--cream);
+  font-family: var(--display); font-weight: 300; font-size: clamp(60px, 9vw, 168px); letter-spacing: -0.02em; color: var(--cream); white-space: nowrap;
   margin-top: -0.04em;
 }
 .hero__lede { margin: 28px 0 0; max-width: 27em; color: var(--cream-mute); font-size: 1.05em; }
@@ -421,7 +421,22 @@ h1, h2, h3 { font-family: var(--display); font-weight: 300; margin: 0; letter-sp
   .masthead__sub { display: none; }
   .masthead__aside a { display: none; }
   .rail { display: none; }
-  .hero__copy { padding: 0 var(--gutter); align-self: flex-end; padding-bottom: 120px; }
+  .hero__copy { padding: 0 var(--gutter); align-self: flex-end; padding-bottom: 104px; }
+  .hero__lede { font-size: 1em; margin-top: 18px; }
+  .hero__meta { margin-top: 26px; padding-top: 14px; }
+  .value { font-size: 21px; }
+  .kicker { margin-bottom: 18px; font-size: 12px; letter-spacing: 0.22em; }
+  .scrollcue { bottom: 20px; }
+  .scrollcue i { height: 36px; }
+  .chapter h2 { font-size: clamp(34px, 9vw, 44px); }
+  .chapter__num { margin-bottom: 12px; font-size: 24px; }
+  .chapter__body { margin-top: 16px; }
+  .specs > div { padding: 10px 0; }
+  .btn { margin-top: 26px; padding: 14px 24px 13px; }
+  .catalogue { padding-top: 96px; }
+  .catalogue__title { font-size: clamp(48px, 13vw, 64px); }
+  .house__quote p { font-size: clamp(30px, 8vw, 40px); }
+  .grain { animation: none; opacity: 0.12; }
   .chapter--hero { align-items: flex-end; }
   .hero__meta { gap: 28px; }
   .chapter__copy, .chapter--right .chapter__copy {
@@ -431,6 +446,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 300; margin: 0; letter-sp
   .chapter__body { font-size: 0.95em; }
   .specs { margin-top: 24px; }
   .part-label__text { font-size: 11px; letter-spacing: 0.12em; }
+  .part-label--desktop { display: none; }
   .part-label__line { height: calc(var(--lift) * 0.5); }
   .part-label__text { bottom: calc(var(--lift) * 0.5 + 8px); }
   .part-label--below .part-label__text { top: calc(var(--lift) * 0.5 + 8px); bottom: auto; }

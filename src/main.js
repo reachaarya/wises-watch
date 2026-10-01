@@ -7,6 +7,9 @@ import { WatchStage, pose } from './watch.js';
 import { renderCollection } from './collection.js';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
+// phones: don't recalculate every trigger when the address bar shows or hides
+ScrollTrigger.config({ ignoreMobileResize: true });
+const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -190,8 +193,8 @@ function buildScroll() {
     scrollTrigger: { trigger: '.assurances', start: 'top 85%' },
   });
 
-  // plates tilt toward the cursor
-  if (!reduced) {
+  // plates tilt toward the cursor (mouse only; on touch it would fight the scroll)
+  if (!reduced && finePointer) {
     $$('.plate__frame').forEach((f) => {
       const rx = gsap.quickTo(f, 'rotationX', { duration: 0.6, ease: 'power3.out' });
       const ry = gsap.quickTo(f, 'rotationY', { duration: 0.6, ease: 'power3.out' });
@@ -226,7 +229,7 @@ function buildScroll() {
   });
 
   // cursor parallax on DOM layers
-  if (!reduced) {
+  if (!reduced && finePointer) {
     const px = gsap.quickTo('[data-parallax]', 'x', { duration: 1.2, ease: 'power3.out' });
     const py = gsap.quickTo('[data-parallax]', 'y', { duration: 1.2, ease: 'power3.out' });
     const gx = gsap.quickTo('.stage__glow', 'x', { duration: 1.6, ease: 'power3.out' });

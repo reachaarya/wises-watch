@@ -32,11 +32,11 @@ const EXPLODE = {
 const LABELS = [
   { part: 'crystal',     text: 'Crystal',  num: 'i',   anchor: [0, 0.5, 0],  lift: 120 },
   { part: 'bezel',       text: 'Bezel',    num: 'ii',  anchor: [0, 0.5, 0],  lift: 70 },
-  { part: 'hand_minute', text: 'Hands',    num: 'iii', anchor: [0, 0, 0],    lift: 150 },
+  { part: 'hand_minute', text: 'Hands',    num: 'iii', anchor: [0, 0, 0],    lift: 150, desktopOnly: true },
   { part: 'dial',        text: 'Dial',     num: 'iv',  anchor: [0, 0.5, 0],  lift: 95 },
-  { part: 'case',        text: 'Case',     num: 'v',   anchor: [0, -0.5, 0], lift: -80 },
+  { part: 'case',        text: 'Case',     num: 'v',   anchor: [0, -0.5, 0], lift: -80, desktopOnly: true },
   { part: 'caseback',    text: 'Caseback', num: 'vi',  anchor: [0, -0.5, 0], lift: -120 },
-  { part: 'crown',       text: 'Crown',    num: 'vii', anchor: [0, 0, 0],    lift: -60 },
+  { part: 'crown',       text: 'Crown',    num: 'vii', anchor: [0, 0, 0],    lift: -60, desktopOnly: true },
   { part: 'strap_bottom', text: 'Bracelet', num: 'viii', anchor: [0, 0, 0.5], lift: -70 },
 ];
 
@@ -58,7 +58,9 @@ export class WatchStage {
     this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    // phones get a lower render resolution: the watch stays sharp and scrolling stays smooth
+    this.mobile = matchMedia('(max-width: 760px), (pointer: coarse)').matches;
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio, this.mobile ? 1.5 : 2));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 0.95;
@@ -145,7 +147,7 @@ export class WatchStage {
       const world = box.getCenter(new THREE.Vector3()).add(new THREE.Vector3(...def.anchor).multiply(size));
       const local = part.obj.worldToLocal(world.clone());
       const el = document.createElement('div');
-      el.className = 'part-label' + (def.lift < 0 ? ' part-label--below' : '');
+      el.className = 'part-label' + (def.lift < 0 ? ' part-label--below' : '') + (def.desktopOnly ? ' part-label--desktop' : '');
       el.style.setProperty('--lift', `${Math.abs(def.lift)}px`);
       el.innerHTML = `<span class="part-label__dot"></span><span class="part-label__line"></span><span class="part-label__text"><em>${def.num}.</em> ${def.text}</span>`;
       this.labelsEl.appendChild(el);
@@ -191,9 +193,9 @@ export class WatchStage {
     const floatY = this.reduced ? 0 : Math.sin(time * 0.9) * 0.08;
     s.rotation.set(p.rotX, p.rotY, p.rotZ + (this.reduced ? 0 : Math.sin(time * 0.55) * 0.02));
     // phones: centre the watch in the upper part of the screen, above the copy
-    const lift = this.portrait && !this.snapshotting ? 0.36 : 0;
+    const lift = this.portrait && !this.snapshotting ? Math.max(0, 0.38 - p.y * 0.8) : 0;
     s.position.set((this.portrait ? 0 : p.x) * this.halfWidth(), (p.y + lift) * this.halfWidth() / this.camera.aspect + floatY, 0);
-    s.scale.setScalar(p.scale * (this.portrait && !this.snapshotting ? 0.68 : 1));
+    s.scale.setScalar(p.scale * (this.portrait && !this.snapshotting ? 0.72 : 1));
 
     for (const part of Object.values(this.parts)) {
       const e = easeInOut(clamp01((p.explode - part.delay) / (1 - part.delay * 0.9)));
@@ -251,7 +253,8 @@ export class WatchStage {
     const sr = this.stage.rotation.clone(), cp = this.camera.position.clone();
     Object.assign(pose, { rotX: 0.18, rotY: -0.42, rotZ: 0.1, x: 0, y: 0, scale: 1.3, explode: 0, hours: 0 });
     this.stage.rotation.set(0, 0, 0);
-    this.camera.position.set(0, 0, this.camera.position.z);
+    // frame the still the same way on every screen, regardless of the live camera distance
+    this.camera.position.set(0, 0, this.camera.aspect < 0.8 ? 25 : 18);
     this.camera.lookAt(0, 0, 0);
     const wasPortrait = this.portrait; this.portrait = true; this.snapshotting = true;
     this.applyPose(pose, 0);
@@ -259,7 +262,9 @@ export class WatchStage {
     this.renderer.render(this.scene, this.camera);
 
     const src = this.renderer.domElement;
-    const ch = src.height * 0.98, cw = ch * (w / h);
+    const ratio = w / h;
+    let ch = src.height * 0.98, cw = ch * ratio;
+    if (cw > src.width) { cw = src.width; ch = cw / ratio; }
     const out = document.createElement('canvas');
     out.width = w; out.height = h;
     out.getContext('2d').drawImage(src, (src.width - cw) / 2, (src.height - ch) / 2, cw, ch, 0, 0, w, h);
