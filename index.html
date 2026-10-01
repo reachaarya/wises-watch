@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wise · Fine Timepieces</title>
+  <meta name="description" content="Wise, purveyors of fine timepieces. Examine The Meridian, piece by piece." />
+  <meta name="theme-color" content="#1a110a" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%231a110a' stroke='%23c8641e' stroke-width='3'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' text-anchor='middle' fill='%23ecdfc6'%3EW%3C/text%3E%3C/svg%3E" />
+  <link rel="preload" href="./models/watch.glb" as="fetch" crossorigin />
+</head>
+<body class="is-loading">
+  <script>
+    // Opened by double-clicking the file? The site needs its local server to load styles, fonts and the 3D model.
+    if (location.protocol === 'file:') {
+      document.addEventListener('DOMContentLoaded', function () {
+        document.body.innerHTML =
+          '<div style="font-family:Georgia,serif;background:#1d130c;color:#ecdfc6;min-height:100vh;display:grid;place-items:center;padding:24px;text-align:center">' +
+          '<div style="max-width:520px"><p style="letter-spacing:.3em;color:#c8641e;font-size:13px">WISE</p>' +
+          '<h1 style="font-weight:400;font-size:34px;margin:12px 0">This page needs its preview server.</h1>' +
+          '<p style="line-height:1.6;opacity:.8">Close this tab and double-click <b>Start Website.bat</b> in the site folder. ' +
+          'Or run <code style="color:#e09445">npm run dev</code> in a terminal. The site will open in your browser fully styled, with the 3D watch.</p></div></div>';
+      });
+    }
+  </script>
+  <!-- Loader -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <svg class="loader__dial" viewBox="0 0 120 120">
+        <g class="loader__ticks"></g>
+        <circle cx="60" cy="60" r="50" class="loader__ring" />
+        <circle cx="60" cy="60" r="50" class="loader__progress" pathLength="100" />
+        <line x1="60" y1="60" x2="60" y2="22" class="loader__hand" />
+        <circle cx="60" cy="60" r="2.5" class="loader__pin" />
+      </svg>
+      <p class="loader__mark">Wise</p>
+      <p class="loader__count"><span data-count>0</span></p>
+    </div>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <nav class="masthead__nav" aria-label="Primary">
+      <a href="#collection">Collection</a>
+      <a href="#house">The House</a>
+    </nav>
+    <a class="masthead__mark" href="#top" aria-label="Wise, back to top">
+      <span class="masthead__word">Wise</span>
+      <span class="masthead__sub">Purveyors of Fine Timepieces</span>
+    </a>
+    <div class="masthead__aside">
+      <a href="#enquire">Enquiries</a>
+      <button class="masthead__bag" type="button" aria-label="Shopping bag, 0 items">Bag&nbsp;<span data-bag>(0)</span></button>
+    </div>
+  </header>
+
+  <!-- 3D stage -->
+  <div class="stage" aria-hidden="true">
+    <div class="stage__glow"></div>
+    <canvas class="stage__canvas"></canvas>
+    <div class="stage__labels"></div>
+  </div>
+
+  <!-- Chapter rail -->
+  <aside class="rail" aria-hidden="true">
+    <span class="rail__num" data-rail-num>&middot;</span>
+    <span class="rail__track"><span class="rail__fill"></span></span>
+    <span class="rail__name" data-rail-name>Frontispiece</span>
+  </aside>
+
+  <main id="top">
+    <div class="story">
+      <!-- Frontispiece -->
+      <section class="chapter chapter--hero" data-chapter="Frontispiece" data-num="&middot;">
+        <div class="hero__copy" data-parallax="0.6">
+          <p class="kicker"><span>Volume I</span><span class="kicker__rule"></span><span>The Dress Series</span></p>
+          <h1 class="hero__title">
+            <span class="hero__the" data-reveal>The</span>
+            <span class="hero__name" data-reveal>Meridian</span>
+          </h1>
+          <p class="hero__lede" data-reveal>A dress watch in polished steel, made for the occasion and kept for a lifetime. Scroll slowly, and we shall take it apart for you.</p>
+          <div class="hero__meta" data-reveal>
+            <div><span class="label">Reference</span><span class="value">WM&middot;01</span></div>
+            <div><span class="label">Your local hour</span><span class="value" data-clock>--:--</span></div>
+          </div>
+        </div>
+        <div class="scrollcue"><span>Scroll to examine</span><i></i></div>
+      </section>
+
+      <!-- I -->
+      <section class="chapter chapter--left" id="face" data-chapter="The Face" data-num="I">
+        <div class="chapter__copy">
+          <p class="chapter__num"><span>Chapter</span> I</p>
+          <h2 data-split>The day, the date, the hour.</h2>
+          <p class="chapter__body">Roman numerals and slim batons on an olive dial. The day is spelled out at twelve and the date magnified at three. The hands before you are set to your own hour.</p>
+          <!-- TODO: confirm specifications with your supplier before launch -->
+          <dl class="specs">
+            <div><dt>Dial</dt><dd>Olive, Roman numerals</dd></div>
+            <div><dt>Calendar</dt><dd>Day at twelve, date at three</dd></div>
+            <div><dt>Crystal</dt><dd>With date magnifier</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- II -->
+      <section class="chapter chapter--anatomy" id="anatomy" data-chapter="Anatomy" data-num="II">
+        <div class="chapter__copy">
+          <p class="chapter__num"><span>Chapter</span> II</p>
+          <h2 data-split>Taken apart, piece by piece.</h2>
+          <p class="chapter__body">Crystal, bezel, hands, dial, case and caseback. Each part is made to sit precisely against the next.</p>
+        </div>
+      </section>
+
+      <!-- III -->
+      <section class="chapter chapter--right" id="strap" data-chapter="The Bracelet" data-num="III">
+        <div class="chapter__copy">
+          <p class="chapter__num"><span>Chapter</span> III</p>
+          <h2 data-split>A bracelet that moves with the wrist.</h2>
+          <p class="chapter__body">Three rows of polished and brushed links, closed with a concealed folding clasp. It sits close to the wrist and catches the light as you move.</p>
+          <dl class="specs">
+            <div><dt>Bracelet</dt><dd>Three-piece steel links</dd></div>
+            <div><dt>Clasp</dt><dd>Concealed folding clasp</dd></div>
+            <div><dt>Bezel</dt><dd>Fluted, polished</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- IV -->
+      <section class="chapter chapter--assembly" id="assembly" data-chapter="Assembly" data-num="IV">
+        <div class="chapter__copy">
+          <p class="chapter__num"><span>Chapter</span> IV</p>
+          <h2 data-split>Returned, whole.</h2>
+          <p class="chapter__body">Every piece is back in its place, and the watch is ready for the wrist.</p>
+          <a class="btn" href="#collection"><span>View the collection</span></a>
+        </div>
+      </section>
+    </div>
+
+    <!-- Collection -->
+    <section class="catalogue" id="collection">
+      <header class="catalogue__head">
+        <p class="kicker kicker--ink"><span>Catalogue</span><span class="kicker__rule"></span><span>Season MMXXVI</span></p>
+        <h2 class="catalogue__title" data-split>The Collection</h2>
+        <p class="catalogue__intro">A short list of timepieces chosen for their character. Each one is inspected before it is sent to you.</p>
+        <div class="ornament" aria-hidden="true"><span></span><svg viewBox="0 0 40 12"><path d="M0 6h13M27 6h13M20 1.5l4.5 4.5-4.5 4.5-4.5-4.5z"/></svg><span></span></div>
+      </header>
+      <ol class="catalogue__grid" data-catalogue></ol>
+    </section>
+
+    <!-- The House -->
+    <section class="house" id="house">
+      <p class="kicker"><span>The House</span></p>
+      <blockquote class="house__quote">
+        <p data-split>&ldquo;A good watch does not ask for attention. It simply keeps its word.&rdquo;</p>
+      </blockquote>
+      <!-- TODO: replace with your actual shipping, warranty and returns terms -->
+      <ul class="assurances">
+        <li><span class="assurances__num">i.</span><h3>Insured delivery</h3><p>Every order is tracked and insured from our hands to yours.</p></li>
+        <li><span class="assurances__num">ii.</span><h3>Warranty</h3><p>Each timepiece carries a warranty against defects in manufacture.</p></li>
+        <li><span class="assurances__num">iii.</span><h3>Considered returns</h3><p>If it is not right for you, return it unworn within the return window.</p></li>
+      </ul>
+    </section>
+
+    <!-- Enquiries / footer -->
+    <footer class="colophon" id="enquire">
+      <div class="colophon__letter">
+        <p class="kicker"><span>Correspondence</span></p>
+        <h2>Letters from the house.</h2>
+        <p>New arrivals, now and then. Never more than once a month.</p>
+        <form class="letter-form" data-letter-form>
+          <label class="sr-only" for="email">Email address</label>
+          <input id="email" type="email" placeholder="Your email address" autocomplete="email" required />
+          <button type="submit" class="btn btn--solid"><span>Subscribe</span></button>
+          <p class="letter-form__ok" role="status">Thank you. Your name is on the list.</p>
+        </form>
+      </div>
+      <div class="colophon__base">
+        <span class="colophon__word">Wise</span>
+        <span>&copy; <span data-year></span> Wise Timepieces. All rights reserved.</span>
+        <span class="colophon__links"><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Privacy</a></span>
+      </div>
+    </footer>
+  </main>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
